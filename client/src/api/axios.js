@@ -1,7 +1,11 @@
 import axios from 'axios';
 
+// In production (Vercel), VITE_API_URL must be set to your Render backend URL.
+// Locally it falls back to localhost for convenience.
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  baseURL: API_BASE,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json'
@@ -37,7 +41,7 @@ api.interceptors.response.use(
         }
         
         // Request a new access token
-        const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/auth/refresh`, {
+        const response = await axios.post(`${API_BASE}/auth/refresh`, {
           refreshToken
         });
         
